@@ -1,0 +1,1 @@
+# mtg-staples-automation
