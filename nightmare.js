@@ -1,46 +1,97 @@
 const Nightmare = require('nightmare')
 const fs = require('fs')
 const path = require("path")
-const nightmare = Nightmare({ show: true })
+const nightmare = Nightmare({ show: true }) // Set to false to run headless
 const selector = '.W14, .L14'
-const timeFrame = '110'
+const decks = [145, 127, 170, 169, 168, 110]
 
-const getData = (selector, timeFrame, pageCount, sideboard) => {
-
-  let fileName = '/mainboard.txt'
-  let url = 'https://mtgtop8.com/topcards?f=PAU&meta=' + timeFrame + '&current_page=' + pageCount
-
-  if (sideboard === true) {
-    fileName =  '/sideboard.txt'
-    url = 'https://mtgtop8.com/topcards?f=PAU&meta=' + timeFrame + '&current_page=' + pageCount + '&maindeck=SB'
+const yyyymmdd = () =>  {
+  const twoDigit = n => { 
+    return (n < 10 ? '0' : '') + n
   }
+  let now = new Date();
+  return '' + now.getFullYear() + twoDigit(now.getMonth() + 1) + twoDigit(now.getDate())
+}
 
-  let filePath = path.normalize(__dirname + fileName)
+const today = yyyymmdd()
+const baseDir = path.normalize(__dirname + '/data')
+const dateDir = path.normalize(baseDir + '/' + today)
+const makeDir = (dir) => {
+  if (!fs.existsSync(dir)){
+    fs.mkdirSync(dir);
+  }
+}
+makeDir(baseDir)
+makeDir(dateDir)
 
-  console.log(pageCount)
+const checkDeck = (deck) => {
 
-  if (selector && timeFrame && pageCount) {
+  let months = ['01', '02', '03' ,'04', '05', '06', '07', '08', '09', '09', '10', '11', '12']
+
+  let now = new Date();
+
+  switch (deck) {
+    case 145:
+      period = now.getFullYear() + '_' + months[(now.getMonth() - 2)] + '-' + months[now.getMonth()]
+      break
+    case 127:
+      period = now.getFullYear() + '_' + months[(now.getMonth() - 4)] + '-' + months[now.getMonth()]
+      break
+    case 170:
+      period = now.getFullYear()
+      break
+    case 169:
+      period = now.getFullYear() - 1
+      break
+    case 168:
+      period = now.getFullYear() -2
+      break
+    case 110:
+      period = 'All'
+      break
+    default:
+      period = 'All'
+  }
+  return period
+}
+
+const getData = (selector, deck, pageCount, sideboard) => {
+    let period = checkDeck(deck)
+    let mainDeck = 'MD'
+    if (sideboard === true) {
+      mainDeck = 'SB'
+    }
+
+    let file = path.normalize(dateDir + '/' + period + '_' +  mainDeck + '.txt')
+    let url = 'https://mtgtop8.com/topcards?f=PAU&meta=' + deck + '&current_page=' + pageCount + '&maindeck=' + mainDeck
+
+  console.log('Page: ' + pageCount)
+
+  if (selector && deck && pageCount) {
     nightmare
       .goto(url)
+      .wait('body')
       .exists('.Nav_PN_no')
       .then((res) => {
         if(res === true && pageCount > 1) {
+
           if(sideboard === false) {
             console.log('Finished Maindeck.')
-            getData(selector, timeFrame, 1, true)
+            getData(selector, deck, 1, true)
+            nextDeck = true
           }
         } else {
           nightmare
             .evaluate(selector => {
                 return Array.from(document.querySelectorAll(selector)).map(element => element.innerText)
               }, selector)
-            .then( results => {
+            .then( res => {
               let i = 0;
-              results.forEach( (result) => {
+              res.forEach( (res) => {
                 i ++
                 if ( i % 3 ===  1 ) {
-                  console.log(result);
-                  fs.appendFile(filePath, (result + "\r\n"),(err) => {   
+                  console.log(res);
+                  fs.appendFile(file, (res + "\r\n"),(err) => {   
                     if (err) throw err
                   })
                 }
@@ -48,13 +99,16 @@ const getData = (selector, timeFrame, pageCount, sideboard) => {
             })
             .then(() => {
                 pageCount++
-                getData(selector, timeFrame, pageCount, sideboard)
+                getData(selector,deck, pageCount, sideboard)
             })
             .catch(error => {
               console.error('Search failed:', error)
             })
         }
+      })
+      .catch(error => {
+        console.error('Search failed:', error)
       })  
-  }
+  }  
 }
-getData(selector, timeFrame, 1, false)
+getData(selector, decks[0], 1, false)
