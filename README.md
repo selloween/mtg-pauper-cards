@@ -19,3 +19,5 @@ npm install
 ```
 node nightmare.js
 ```
+## TODO:
+* Download card images from scryfall.com
