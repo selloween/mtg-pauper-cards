@@ -1,6 +1,6 @@
-# mtg-pauper-downloader 
+# mtg-pauper-cards
 
-Auto-generates card lists of most played in the MTG Pauper Format.
+Auto-generate card lists of most played in the MTG Pauper Format.
 Data is fetched from [mtgtop8](https://www.mtgtop8.com) using [nightmare](https://github.com/segmentio/nightmare)
 
 ## Requirements
