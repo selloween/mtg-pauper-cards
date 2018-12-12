@@ -42,10 +42,10 @@ const checkDeck = (deck) => {
       prefix = now.getFullYear()
       break
     case 169:
-      prefix = now.getFullYear() - 1
+      prefix = 'All_' + now.getFullYear() - 1
       break
     case 168:
-      prefix = now.getFullYear() -2
+      prefix ='All_' + now.getFullYear() -2
       break
     case 110:
       prefix = 'All'
