@@ -6,7 +6,8 @@ Data is fetched from [mtgtop8](https://www.mtgtop8.com) using [nightmare](https:
 
 ## Requirements
 
-* [Node.js] (https://nodejs.org/en/) (Tested on v10.13.0)
+* [Node.js](https://nodejs.org/en/)
+(Tested on v10.13.0)
 
 ## Howto
 
