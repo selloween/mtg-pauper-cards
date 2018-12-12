@@ -13,5 +13,7 @@ In the root directory:
 
 ```
 npm install
+```
+```
 node nightmare.js
 ```
