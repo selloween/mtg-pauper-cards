@@ -9,5 +9,9 @@ Data is fetched from [mtgtop8](https://www.mtgtop8.com) using [nightmare](https:
 
 ## Howto
 
-```npm install``
-```node nightmare.js```
+In the root directory:
+
+```
+npm install
+node nightmare.js
+```
