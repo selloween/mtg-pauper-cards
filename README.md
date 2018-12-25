@@ -9,15 +9,65 @@ Data is fetched from [mtgtop8](https://www.mtgtop8.com) using [nightmare](https:
 * [Node.js](https://nodejs.org/en/)
 (Tested on v10.13.0)
 
-## Howto
+## Installation
 
 In the root directory:
 
 ```
 npm install
 ```
+
+## Configuration
+
+The script will by default download seperate lists of mainboard and sideboard cards played in top decks of follwing time periods:
+
+* Last 2 months
+* Last 4 months
+* Current year
+* Last year
+* 2 years ago
+* All cards since the beginnig of time
+
+You can adjust the periods by removing the number codes in the decks array in the getData() method.
+Note: Do not set sideboard the sideboard value to true in the initial getData() call. The sideboard value is set to true after mainboard lists are downloaded. See code bellow.
+
+```
+getData({
+
+  selector: '.W14, .L14', // html class selectors containing card data
+
+  /* Codes for filtering different meta periods
+
+    145: Last 2 Months,
+
+    127: Last 4 Months,
+
+    170: Current Year,
+
+    169: Last Year, 
+
+    168: 2 years ago
+
+    110: All cards from all decks
+
+  */
+
+  decks: [145, 127, 170, 169, 168, 110], 
+
+  page: 1,
+
+  count: 0,
+
+  sideboard: false
+})
+```
+
+## Run the script
+
 ```
 node nightmare.js
 ```
-## TODO:
+
+
+### TODO:
 * Download card images from scryfall.com
