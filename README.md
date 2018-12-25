@@ -1,8 +1,7 @@
 # mtg-pauper-cards
 
-Auto-generate most played card lists in the MTG Pauper Format.
-
-Data is fetched from [mtgtop8](https://www.mtgtop8.com) using [nightmare](https://github.com/segmentio/nightmare).
+This script will download card lists of the current and past meta of top 8 Magic the Gathering Pauper decks played in tournaments.
+The data is crawled from [mtgtop8](https://www.mtgtop8.com) using [nightmare JS](https://github.com/segmentio/nightmare). Nightmare is a high-level browser automation library.
 
 ## Requirements
 
