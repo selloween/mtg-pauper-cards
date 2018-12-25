@@ -28,7 +28,7 @@ The script will by default download seperate lists of mainboard and sideboard ca
 * 2 years ago
 * All cards since the beginnig of time
 
-You can adjust the periods by removing the number codes in the decks array in the getData() method.
+You can adjust the time periods by removing number codes in the object decks array value ```decks: [145, 127, 170, 169, 168, 110]``` passed  in the intial getData() function call.
 Note: Do not set sideboard the sideboard value to true in the initial getData() call. The sideboard value is set to true after mainboard lists are downloaded. See code bellow.
 
 ```
